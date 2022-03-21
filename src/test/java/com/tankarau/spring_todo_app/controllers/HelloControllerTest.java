@@ -21,6 +21,4 @@ class HelloControllerTest {
         assertThat(restTemplate.getForObject("http://localhost:8080/hi",
                 String.class)).contains("Hi Tan");
     }
-
-
 }
