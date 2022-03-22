@@ -1,11 +1,13 @@
 package com.tankarau.spring_todo_app.controllers;
 
+// Internals requirements
 import com.tankarau.spring_todo_app.models.Todo;
 import com.tankarau.spring_todo_app.services.TodoService;
+// Third-Party requirements
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+// Core module requirements
 import java.util.List;
 
 @RestController
@@ -30,7 +32,7 @@ public class TodoController {
      * @return the specified todo if exist
      */
     public Todo getTodo(String id) {
-        return new Todo("0", "title");
+        return todoService.fetchSpecificTodo(id);
     }
 
     /**

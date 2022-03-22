@@ -26,7 +26,7 @@ class TodoControllerTest {
     // THEN we should have the todos displayed
     @Test
     void getAllTodos() {
-        List<Todo> expectedTodo = Arrays.asList(
+        List<Todo> expectedTodoList = Arrays.asList(
                 new Todo("1", "todo 1"),
                 new Todo("2", "todo 2"),
                 new Todo("3", "todo 3")
@@ -34,11 +34,16 @@ class TodoControllerTest {
 
         assertThat(todoService.fetchAllTodos())
                 .usingRecursiveComparison()
-                .isEqualTo(expectedTodo);
+                .isEqualTo(expectedTodoList);
     }
 
     @Test
     void getTodo() {
+        Todo expectedTodo = new Todo("1", "todo 1");
+
+        assertThat(todoService.fetchSpecificTodo("1"))
+                .usingRecursiveComparison()
+                .isEqualTo(expectedTodo);
     }
 
     @Test

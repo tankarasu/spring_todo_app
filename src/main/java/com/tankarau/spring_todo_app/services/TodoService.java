@@ -17,4 +17,8 @@ public class TodoService {
     public List<Todo> fetchAllTodos() {
         return todos;
     }
+
+    public Todo fetchSpecificTodo(String id){
+        return todos.stream().filter(todo -> todo.getId() == id).findFirst().get();
+    }
 }
