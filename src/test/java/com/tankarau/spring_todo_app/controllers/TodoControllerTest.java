@@ -48,6 +48,19 @@ class TodoControllerTest {
 
     @Test
     void createTodo() {
+        List<Todo> expectedTodoList = Arrays.asList(
+                new Todo("1", "todo 1"),
+                new Todo("2", "todo 2"),
+                new Todo("3", "todo 3"),
+                new Todo("4", "todo 4")
+        );
+
+        Todo newTodo = new Todo("4", "todo 4");
+        todoService.createOneTodo(newTodo);
+
+        assertThat(todoService.fetchAllTodos())
+                .usingRecursiveComparison()
+                .isEqualTo(expectedTodoList);
     }
 
     @Test
