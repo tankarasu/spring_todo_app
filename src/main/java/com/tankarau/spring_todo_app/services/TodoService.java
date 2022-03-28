@@ -9,6 +9,10 @@ import java.util.List;
 
 @Service
 public class TodoService {
+    public void setTodos(List<Todo> todos) {
+        this.todos = todos;
+    }
+
     private List<Todo> todos = new ArrayList<>(Arrays.asList(
             new Todo("1", "todo 1"),
             new Todo("2", "todo 2"),
@@ -25,5 +29,27 @@ public class TodoService {
 
     public void createOneTodo(Todo newTodo) {
         todos.add( newTodo);
+    }
+
+    public void updateSpecificTask(String id, String newDescription) {
+        List<Todo> taskListBeforeChange = fetchAllTodos();
+        Todo taskBeforeChange = fetchSpecificTodo(id);
+        Integer index = fetchAllTodos().indexOf(taskBeforeChange);
+        taskBeforeChange.setTitle(newDescription);
+        taskListBeforeChange.set(index, taskBeforeChange);
+        setTodos(taskListBeforeChange);
+    }
+
+    public void deleteSpecificTodo(String id) {
+        todos.removeIf(task -> task.getId().equals(id));
+    }
+
+    public void switchFinishedState(String id) {
+        List<Todo> taskListBeforeChange = fetchAllTodos();
+        Todo taskBeforeChange = fetchSpecificTodo(id);
+        Integer index = fetchAllTodos().indexOf(taskBeforeChange);
+        taskBeforeChange.setFinished(!taskBeforeChange.getFinished());
+        taskListBeforeChange.set(index, taskBeforeChange);
+        setTodos(taskListBeforeChange);
     }
 }

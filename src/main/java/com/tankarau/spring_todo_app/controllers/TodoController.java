@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 // Core module requirements
+import javax.print.MultiDoc;
 import java.util.List;
 
 @RestController
