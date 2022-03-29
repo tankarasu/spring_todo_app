@@ -1,34 +1,28 @@
-package com.tankarau.spring_todo_app.controllers;
-
-// Internals requirements
+// Internal requirements
 
 import com.tankarau.spring_todo_app.models.Todo;
-
-// Third-Party requirements
 import com.tankarau.spring_todo_app.services.TodoService;
+
+// Third-party requirements
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-// Core module requirements
 import static org.assertj.core.api.Assertions.assertThat;
 
+// Core-module requirements
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class TodoControllerTest {
+class TodoServiceTest {
+    private final TodoService todoService = new TodoService();
+
     List<Todo> initialTaskList = Arrays.asList(
             new Todo("1", "todo 1"),
             new Todo("2", "todo 2"),
             new Todo("3", "todo 3")
     );
-
-    @Autowired
-    private TodoService todoService;
 
     @BeforeEach
     public void initEach() {
@@ -36,9 +30,8 @@ class TodoControllerTest {
     }
 
     @Test
-    void getAllTodos() {
+    void fetchAllTodos() {
         // GIVEN there's some tasks to fetch
-        // WHEN we invoke the methods
         // THEN we should have the todos fetched
         assertThat(todoService.fetchAllTodos())
                 .usingRecursiveComparison()
@@ -46,19 +39,21 @@ class TodoControllerTest {
     }
 
     @Test
-    void getTodo() {
+    void fetchSpecificTodo() {
         // GIVEN we want to fetch one specific Task
         Todo expectedTodo = new Todo("1", "todo 1");
 
         // WHEN we invoke method with specific ID
+        String expectedID = "1";
+
         // THEN we should fetch the specified task
-        assertThat(todoService.fetchSpecificTodo("1"))
+        assertThat(todoService.fetchSpecificTodo(expectedID))
                 .usingRecursiveComparison()
                 .isEqualTo(expectedTodo);
     }
 
     @Test
-    void createTodo() {
+    void createOneTodo() {
         // GIVEN we want to create a new Task
         List<Todo> expectedTodoList = Arrays.asList(
                 new Todo("1", "todo 1"),
@@ -66,9 +61,9 @@ class TodoControllerTest {
                 new Todo("3", "todo 3"),
                 new Todo("4", "todo 4")
         );
-
-        // WHEN we invoke method with the Task in param
-        Todo newTodo = new Todo("4", "todo 4");
+        String newID = "4";
+        String newDescription = "todo 4";
+        Todo newTodo = new Todo(newID, newDescription);
         todoService.createOneTodo(newTodo);
 
         // THEN we should have created the specified task
@@ -78,29 +73,31 @@ class TodoControllerTest {
     }
 
     @Test
-    void updateTodo() {
+    void updateSpecificTask() {
         // GIVEN we want update a task description
-        List<Todo> initialTodoList = Arrays.asList(
-                new Todo("1", "todo 1"),
-                new Todo("2", "todo 2"),
-                new Todo("3", "todo 3")
-        );
+        String idToUpdate = "1";
+        String updatedDescription = "todo ONE";
+
         // WHEN we provide the new description to the specified task
-        todoService.updateSpecificTask("1", "todo ONE");
+        todoService.updateSpecificTask(idToUpdate, updatedDescription);
+
         // THEN the description of specified task should be updated
         assertThat(todoService.fetchSpecificTodo("1").getTitle())
                 .isEqualTo("todo ONE");
     }
 
     @Test
-    void deleteTodo() {
+    void deleteSpecificTodo() {
         // GIVEN we want to delete a task
         List<Todo> finalTaskList = Arrays.asList(
                 new Todo("1", "todo 1"),
                 new Todo("2", "todo 2")
         );
+
         // WHEN we invoke method with specified ID
-        todoService.deleteSpecificTodo("3");
+        String expectedId = "3";
+        todoService.deleteSpecificTodo(expectedId);
+
         // THEN the task should be deleted
         assertThat(todoService.fetchAllTodos())
                 .usingRecursiveComparison()
@@ -108,17 +105,15 @@ class TodoControllerTest {
     }
 
     @Test
-    void handleFinishedState() {
+    void switchFinishedState() {
         // GIVEN we have a specific not finished task
-        List<Todo> taskList = Arrays.asList(
-                new Todo("1", "todo 1"),
-                new Todo("2", "todo 2"),
-                new Todo("3", "todo 3")
-        );
+        String expectedId = "1";
+
         // WHEN we want to change the state to finished
-        todoService.switchFinishedState("1");
+        todoService.switchFinishedState(expectedId);
+
         // THEN the task state must change
         assertThat(todoService.fetchSpecificTodo("1").getFinished())
-                .isEqualTo(true);
+                .isTrue();
     }
 }
