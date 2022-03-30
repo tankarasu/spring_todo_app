@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class TodoService {
@@ -24,7 +25,7 @@ public class TodoService {
     }
 
     public Todo fetchSpecificTodo(String id) {
-        return todos.stream().filter(todo -> todo.getId() == id).findFirst().get();
+        return todos.stream().filter(todo -> Objects.equals(todo.getId(), id)).findFirst().get();
     }
 
     public void createOneTodo(Todo newTodo) {

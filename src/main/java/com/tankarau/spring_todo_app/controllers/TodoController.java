@@ -6,6 +6,7 @@ import com.tankarau.spring_todo_app.services.TodoService;
 // Third-Party requirements
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 // Core module requirements
 import javax.print.MultiDoc;
@@ -13,8 +14,8 @@ import java.util.List;
 
 @RestController
 public class TodoController {
-    @Autowired
-    private TodoService todoService;
+    @Autowired(required = true)
+    private TodoService todoService = new TodoService();
 
     /**
      * it used to fetch All todos
@@ -22,6 +23,7 @@ public class TodoController {
      * @return an Array of all todos
      */
     @GetMapping("/todos")
+    @ResponseBody
     public List<Todo> getAllTodos() {
         return todoService.fetchAllTodos();
     }
