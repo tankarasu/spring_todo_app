@@ -1,6 +1,7 @@
 package com.tankarau.spring_todo_app.controllers;
 
 // Internal requirements
+
 import com.tankarau.spring_todo_app.models.Todo;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,9 +12,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
@@ -41,16 +44,23 @@ class TodoControllerTest {
     String initialTaskListJSON = "[{\"id\":\"1\",\"title\":\"todo 1\"," +
             "\"finished\":false},{\"id\":\"2\",\"title\":\"todo 2\",\"finished\":false},{\"id\":\"3\",\"title\":\"todo 3\",\"finished\":false}]";
 
+    String taskTwo = "{\"id\":\"2\",\"title\":\"todo 2\",\"finished\":false}";
 
     @Test
     void getAllTodos() throws Exception {
-        this.mvc.perform(get("/todos"))
+        this.mvc.perform(get("/todos").contentType("application/json"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(initialTaskListJSON));
     }
 
     @Test
-    void getTodo() {
+    void getTodo() throws Exception {
+        String idToFetch = "2";
+        String url = "/todos/" + idToFetch;
+
+        this.mvc.perform(get(url).contentType("application/json"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(taskTwo));
     }
 
     @Test

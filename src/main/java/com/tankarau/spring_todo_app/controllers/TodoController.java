@@ -5,9 +5,7 @@ import com.tankarau.spring_todo_app.models.Todo;
 import com.tankarau.spring_todo_app.services.TodoService;
 // Third-Party requirements
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 // Core module requirements
 import javax.print.MultiDoc;
 import java.util.List;
@@ -34,7 +32,9 @@ public class TodoController {
      * @param id required ID of the specified todo
      * @return the specified todo if exist
      */
-    public Todo getTodo(String id) {
+    @GetMapping("/todos/{id}")
+    @ResponseBody
+    public Todo getTodo(@PathVariable String id) {
         return todoService.fetchSpecificTodo(id);
     }
 
