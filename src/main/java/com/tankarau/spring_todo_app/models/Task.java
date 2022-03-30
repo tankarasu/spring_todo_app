@@ -1,16 +1,12 @@
 package com.tankarau.spring_todo_app.models;
 
-public class Todo {
-    private String id;
+public class Task {
+    private final String id;
     private  String title;
     private Boolean isFinished;
 
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getTitle() {
@@ -29,7 +25,7 @@ public class Todo {
         isFinished = finished;
     }
 
-    public Todo(String id, String title) {
+    public Task(String id, String title) {
         this.id = id;
         this.title = title;
         this.isFinished = false;

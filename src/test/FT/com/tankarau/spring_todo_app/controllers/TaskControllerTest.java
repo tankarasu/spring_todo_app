@@ -1,9 +1,5 @@
 package com.tankarau.spring_todo_app.controllers;
 
-// Internal requirements
-
-import com.jayway.jsonpath.JsonPath;
-import com.tankarau.spring_todo_app.models.Todo;
 // Third-Party requirements
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,42 +12,43 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-// Core-module requirements
-import java.util.Arrays;
-import java.util.List;
-
 @SpringBootTest
 @AutoConfigureMockMvc
-class TodoControllerTest {
+class TaskControllerTest {
 
     @Autowired
     private MockMvc mvc;
 
     // FIXTURES
-    List<Todo> initialTaskList = Arrays.asList(
-            new Todo("1", "todo 1"),
-            new Todo("2", "todo 2"),
-            new Todo("3", "todo 3")
-    );
+    String initialTaskListJSON = "[{\"id\":\"1\",\"title\":\"task 1\"," +
+            "\"finished\":false},{\"id\":\"2\",\"title\":\"task 2\"," +
+            "\"finished\":false},{\"id\":\"3\",\"title\":\"task 3\"," +
+            "\"finished\":false}]";
 
-    String initialTaskListJSON = "[{\"id\":\"1\",\"title\":\"todo 1\"," +
-            "\"finished\":false},{\"id\":\"2\",\"title\":\"todo 2\",\"finished\":false},{\"id\":\"3\",\"title\":\"todo 3\",\"finished\":false}]";
-
-    String taskTwoJSON = "{\"id\":\"2\",\"title\":\"todo 2\",\"finished\":false}";
+    String taskTwoJSON = "{\"id\":\"2\",\"title\":\"task 2\"," +
+            "\"finished\":false}";
 
     @Test
-    void getAllTodos() throws Exception {
-        this.mvc.perform(get("/todos").contentType("application/json"))
+    void getAllTasks() throws Exception {
+    // GIVEN we want to fetch all available task
+    // THEN all task SHOULD be fetched
+        this.mvc.perform(get("/tasks")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(initialTaskListJSON));
     }
 
     @Test
     void getTodo() throws Exception {
+        // GIVEN we want to fetch one specific Task
         String idToFetch = "2";
-        String url = "/todos/" + idToFetch;
 
-        this.mvc.perform(get(url).contentType("application/json"))
+        // WHEN we invoke the method
+        String url = "/tasks/" + idToFetch;
+
+        // THEN should the task fetched
+        this.mvc.perform(get(url)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(taskTwoJSON));
     }
@@ -64,7 +61,7 @@ class TodoControllerTest {
                 "\"finished\":false}";
 
         // THEN the task should be created
-        this.mvc.perform(post("/todos")
+        this.mvc.perform(post("/tasks")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(newTodo)
                         .accept(MediaType.APPLICATION_JSON))
@@ -79,7 +76,7 @@ class TodoControllerTest {
                 "\"finished\":false}";
 
         // THEN the task should be updated
-        this.mvc.perform(put("/todos?id=1")
+        this.mvc.perform(put("/tasks?id=1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("todo ONE")
                         .accept(MediaType.APPLICATION_JSON))
@@ -89,20 +86,23 @@ class TodoControllerTest {
 
     @Test
     void deleteTodo() throws Exception {
-        this.mvc.perform(delete("/todos?id=1"))
+        this.mvc.perform(delete("/tasks?id=1"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("true"));
     }
 
     @Test
     void handleFinishedState() throws Exception {
-        String returnedTask = "{\"id\":\"1\",\"title\":\"todo 1\"," +
+        // GIVEN we want to switch the FinishedState of a specific task
+        String returnedTask = "{\"id\":\"1\",\"title\":\"task 1\"," +
                 "\"finished\":true}";
 
-        this.mvc.perform(put("/todos/finished?id=1"))
+        // THEN should state be changed: true <-> false
+        this.mvc.perform(put("/tasks/finished?id=1"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(returnedTask));
 
-        this.mvc.perform(put("/todos/finished?id=1"));
+        // Fix to get previous state
+        this.mvc.perform(put("/tasks/finished?id=1"));
     }
 }
