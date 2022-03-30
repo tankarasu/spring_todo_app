@@ -43,8 +43,9 @@ public class TodoController {
      *
      * @param todo valid todo for creating
      */
-    public void createTodo(Todo todo) {
-
+    @PostMapping("/todos")
+    public Todo createTodo(@RequestBody Todo todo) {
+        return todoService.createOneTodo(todo);
     }
 
     /**

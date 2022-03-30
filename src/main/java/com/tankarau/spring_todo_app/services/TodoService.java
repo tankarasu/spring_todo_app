@@ -28,8 +28,10 @@ public class TodoService {
         return todos.stream().filter(todo -> Objects.equals(todo.getId(), id)).findFirst().get();
     }
 
-    public void createOneTodo(Todo newTodo) {
+    public Todo createOneTodo(Todo newTodo) {
         todos.add( newTodo);
+
+        return newTodo;
     }
 
     public void updateSpecificTask(String id, String newDescription) {
