@@ -49,12 +49,14 @@ public class TodoService {
         return todos.removeIf(task -> task.getId().equals(id));
     }
 
-    public void switchFinishedState(String id) {
+    public Todo switchFinishedState(String id) {
         List<Todo> taskListBeforeChange = fetchAllTodos();
         Todo taskBeforeChange = fetchSpecificTodo(id);
         Integer index = fetchAllTodos().indexOf(taskBeforeChange);
         taskBeforeChange.setFinished(!taskBeforeChange.getFinished());
         taskListBeforeChange.set(index, taskBeforeChange);
         setTodos(taskListBeforeChange);
+
+        return fetchSpecificTodo(id);
     }
 }

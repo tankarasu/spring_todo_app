@@ -96,6 +96,13 @@ class TodoControllerTest {
 
     @Test
     void handleFinishedState() throws Exception {
+        String returnedTask = "{\"id\":\"1\",\"title\":\"todo 1\"," +
+                "\"finished\":true}";
 
+        this.mvc.perform(put("/todos/finished?id=1"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(returnedTask));
+
+        this.mvc.perform(put("/todos/finished?id=1"));
     }
 }

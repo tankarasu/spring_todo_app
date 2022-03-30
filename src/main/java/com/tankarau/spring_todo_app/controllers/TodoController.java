@@ -76,8 +76,9 @@ public class TodoController {
      *
      * @param id id of the todo
      */
-    public void handleFinishedState(String id) {
-
+    @PutMapping("/todos/finished")
+    public Todo handleFinishedState(@RequestParam String id) {
+        return todoService.switchFinishedState(id);
     }
 
 }
