@@ -89,10 +89,13 @@ class TodoControllerTest {
 
     @Test
     void deleteTodo() throws Exception {
-
+        this.mvc.perform(delete("/todos?id=1"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("true"));
     }
 
     @Test
     void handleFinishedState() throws Exception {
+
     }
 }

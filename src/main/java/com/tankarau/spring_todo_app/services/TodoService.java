@@ -45,8 +45,8 @@ public class TodoService {
         return fetchSpecificTodo(id);
     }
 
-    public void deleteSpecificTodo(String id) {
-        todos.removeIf(task -> task.getId().equals(id));
+    public Boolean deleteSpecificTodo(String id) {
+        return todos.removeIf(task -> task.getId().equals(id));
     }
 
     public void switchFinishedState(String id) {

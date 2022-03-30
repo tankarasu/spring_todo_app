@@ -66,8 +66,9 @@ public class TodoController {
      *
      * @param id id of the todo to delete
      */
-    public void deleteTodo(String id) {
-
+    @DeleteMapping("/todos")
+    public Boolean deleteTodo(@RequestParam String id) {
+        return todoService.deleteSpecificTodo(id);
     }
 
     /**
