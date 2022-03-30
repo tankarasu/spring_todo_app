@@ -5,13 +5,11 @@ package com.tankarau.spring_todo_app.controllers;
 import com.jayway.jsonpath.JsonPath;
 import com.tankarau.spring_todo_app.models.Todo;
 // Third-Party requirements
-import org.json.JSONString;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
@@ -21,8 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 // Core-module requirements
 import java.util.Arrays;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -77,14 +73,26 @@ class TodoControllerTest {
     }
 
     @Test
-    void updateTodo() {
+    void updateTodo() throws Exception {
+        // GIVEN we want to update a task
+        String returnedTask = "{\"id\":\"1\",\"title\":\"todo ONE\"," +
+                "\"finished\":false}";
+
+        // THEN the task should be updated
+        this.mvc.perform(put("/todos?id=1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("todo ONE")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(returnedTask));
     }
 
     @Test
-    void deleteTodo() {
+    void deleteTodo() throws Exception {
+
     }
 
     @Test
-    void handleFinishedState() {
+    void handleFinishedState() throws Exception {
     }
 }

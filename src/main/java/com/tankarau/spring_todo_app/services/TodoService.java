@@ -34,13 +34,15 @@ public class TodoService {
         return newTodo;
     }
 
-    public void updateSpecificTask(String id, String newDescription) {
+    public Todo updateSpecificTask(String id, String newDescription) {
         List<Todo> taskListBeforeChange = fetchAllTodos();
         Todo taskBeforeChange = fetchSpecificTodo(id);
         Integer index = fetchAllTodos().indexOf(taskBeforeChange);
         taskBeforeChange.setTitle(newDescription);
         taskListBeforeChange.set(index, taskBeforeChange);
         setTodos(taskListBeforeChange);
+
+        return fetchSpecificTodo(id);
     }
 
     public void deleteSpecificTodo(String id) {

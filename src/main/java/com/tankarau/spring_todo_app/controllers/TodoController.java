@@ -44,6 +44,7 @@ public class TodoController {
      * @param todo valid todo for creating
      */
     @PostMapping("/todos")
+    @ResponseBody
     public Todo createTodo(@RequestBody Todo todo) {
         return todoService.createOneTodo(todo);
     }
@@ -53,8 +54,11 @@ public class TodoController {
      *
      * @param id valid ID for existing todo
      */
-    public void updateTodo(String id) {
-
+    @PutMapping("/todos")
+    @ResponseBody
+    public Todo updateTodo(@RequestParam String id,
+                           @RequestBody String newDescription) {
+        return todoService.updateSpecificTask(id, newDescription);
     }
 
     /**
