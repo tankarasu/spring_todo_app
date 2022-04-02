@@ -2,7 +2,6 @@ package com.tankarau.spring_todo_app.controllers;
 
 // Third-Party requirements
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,10 +10,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 class TaskControllerTest {
@@ -42,7 +39,7 @@ class TaskControllerTest {
     }
 
     @Test
-    void getTodo() throws Exception {
+    void getTask() throws Exception {
         // GIVEN we want to fetch one specific Task
         String idToFetch = "2";
 
@@ -57,7 +54,7 @@ class TaskControllerTest {
     }
 
     @Test
-    void createTodo() throws Exception {
+    void createTask() throws Exception {
         // GIVEN we want to create a new Task
         String newTodo = "{\"id\":\"4\",\"title\":\"todo 4\"}";
         String returnedTask = "{\"id\":\"4\",\"title\":\"todo 4\"," +
@@ -73,7 +70,7 @@ class TaskControllerTest {
     }
 
     @Test
-    void updateTodo() throws Exception {
+    void updateTask() throws Exception {
         // GIVEN we want to update a task
         String returnedTask = "{\"id\":\"1\",\"title\":\"todo ONE\"," +
                 "\"finished\":false}";
@@ -88,7 +85,7 @@ class TaskControllerTest {
     }
 
     @Test
-    void deleteTodo() throws Exception {
+    void deleteTask() throws Exception {
         this.mvc.perform(delete("/tasks?id=1"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("true"));

@@ -35,12 +35,10 @@ public class TaskService {
     }
 
     public Task updateSpecificTask(String id, String newDescription) {
-        List<Task> taskListBeforeChange = fetchAllTasks();
-        Task taskBeforeChange = fetchSpecificTask(id);
-        int index = fetchAllTasks().indexOf(taskBeforeChange);
-        taskBeforeChange.setTitle(newDescription);
-        taskListBeforeChange.set(index, taskBeforeChange);
-        setTasks(taskListBeforeChange);
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
+            if(task.getId().equals(id)) tasks.get(i).setTitle(newDescription);
+        }
 
         return fetchSpecificTask(id);
     }
@@ -50,12 +48,10 @@ public class TaskService {
     }
 
     public Task switchFinishedState(String id) {
-        List<Task> taskListBeforeChange = fetchAllTasks();
-        Task taskBeforeChange = fetchSpecificTask(id);
-        int index = fetchAllTasks().indexOf(taskBeforeChange);
-        taskBeforeChange.setFinished(!taskBeforeChange.getFinished());
-        taskListBeforeChange.set(index, taskBeforeChange);
-        setTasks(taskListBeforeChange);
+        for (int i = 0; i < tasks.size(); i++) {
+            Task task = tasks.get(i);
+            if(task.getId().equals(id)) tasks.get(i).setFinished(!tasks.get(i).getFinished());
+        }
 
         return fetchSpecificTask(id);
     }
