@@ -2,8 +2,29 @@
 'https://plantuml.com/class-diagram
 
 package Controllers{
-    class TodoController{
+    class TaskController{
+        - TaskService
+        ..
+        + getAllTasks( )
+        + getTask( String )
+        + createTask( Task )
+        + updateTask( String, String)
+        + updateTask( Boolean )
+        + deleteTask( String )
     }
+
+    class TaskService{
+        - List<Task> task
+        ..
+        + setTasks(List<Task>)
+        + fetchAllTasks()
+        + fetchSpecificTask(String)
+        + createOneTask(Task)
+        + updateSpecificTask(String, Task)
+        + deleteSpecificTask(String)
+    }
+
+    TaskService -> TaskController
 }
 
 @enduml
