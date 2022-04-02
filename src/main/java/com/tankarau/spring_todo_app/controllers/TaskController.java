@@ -57,7 +57,22 @@ public class TaskController {
     @ResponseBody
     public Task updateTask(@RequestParam String id,
                            @RequestBody String newDescription) {
-        return taskService.updateSpecificTask(id, newDescription);
+        Task updatedTask = new Task(id, newDescription);
+
+        return taskService.updateSpecificTask(id, updatedTask);
+    }
+
+    /**
+     * used to switch between finished/not finished task
+     *
+     * @param id id of the task
+     */
+    @PutMapping("/tasks/finished")
+    public Task updateTask(@RequestParam String id) {
+        Task task = taskService.fetchSpecificTask(id);
+        task.setFinished(!task.getFinished());
+
+        return taskService.updateSpecificTask(id, task);
     }
 
     /**
@@ -68,16 +83,6 @@ public class TaskController {
     @DeleteMapping("/tasks")
     public Boolean deleteTask(@RequestParam String id) {
         return taskService.deleteSpecificTask(id);
-    }
-
-    /**
-     * used to switch between finished/not finished task
-     *
-     * @param id id of the task
-     */
-    @PutMapping("/tasks/finished")
-    public Task handleFinishedState(@RequestParam String id) {
-        return taskService.switchFinishedState(id);
     }
 
 }

@@ -63,9 +63,10 @@ class TaskServiceTest {
         // GIVEN we want update a task description
         String idToUpdate = "1";
         String updatedDescription = "task ONE";
+        Task updatedTask = new Task(idToUpdate, updatedDescription);
 
         // WHEN we provide the new description to the specified task
-        taskService.updateSpecificTask(idToUpdate, updatedDescription);
+        taskService.updateSpecificTask(idToUpdate, updatedTask);
 
         // THEN the description of specified task should be updated
         assertThat(taskService.fetchSpecificTask("1").getTitle())
@@ -84,18 +85,5 @@ class TaskServiceTest {
         assertThat(taskService.fetchAllTasks())
                 .usingRecursiveComparison()
                 .isEqualTo(Fixture.taskListAfterDelete());
-    }
-
-    @Test
-    void switchFinishedState() {
-        // GIVEN we have a specific not finished task
-        String expectedId = "1";
-
-        // WHEN we want to change the state to finished
-        taskService.switchFinishedState(expectedId);
-
-        // THEN the task state must change
-        assertThat(taskService.fetchSpecificTask("1").getFinished())
-                .isTrue();
     }
 }

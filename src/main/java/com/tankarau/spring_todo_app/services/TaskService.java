@@ -25,34 +25,26 @@ public class TaskService {
     }
 
     public Task fetchSpecificTask(String id) {
-        return tasks.stream().filter(task -> Objects.equals(task.getId(), id)).findFirst().get();
+        return tasks.stream().filter(task -> Objects.equals(task.getId(), id))
+                .findFirst()
+                .get();
     }
 
     public Task createOneTask(Task newTask) {
-        tasks.add( newTask);
+        tasks.add(newTask);
 
         return newTask;
     }
 
-    public Task updateSpecificTask(String id, String newDescription) {
-        for (int i = 0; i < tasks.size(); i++) {
-            Task task = tasks.get(i);
-            if(task.getId().equals(id)) tasks.get(i).setTitle(newDescription);
-        }
+    public Task updateSpecificTask(String id, Task updatedTask) {
+        for (Task task : tasks)
+            if (task.getId().equals(id))
+                tasks.set(tasks.indexOf(task), updatedTask);
 
         return fetchSpecificTask(id);
     }
 
     public Boolean deleteSpecificTask(String id) {
         return tasks.removeIf(task -> task.getId().equals(id));
-    }
-
-    public Task switchFinishedState(String id) {
-        for (int i = 0; i < tasks.size(); i++) {
-            Task task = tasks.get(i);
-            if(task.getId().equals(id)) tasks.get(i).setFinished(!tasks.get(i).getFinished());
-        }
-
-        return fetchSpecificTask(id);
     }
 }
